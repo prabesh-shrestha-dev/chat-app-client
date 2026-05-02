@@ -1,0 +1,8 @@
+#login-form {
+  min-height: 80vh;
+  min-width: 40vh;
+  padding: 20px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import './Register.css'
-import api from "../api/axios";
+import { axiosAuth } from "../api/axios";
 
 function Register() {
   const phoneInputRef = useRef(null);
@@ -14,7 +14,7 @@ function Register() {
     e.preventDefault();
 
     try {
-    const response = await api.post('/register', { phoneNumber, password, firstName, middleName, lastName });
+    const response = await axiosAuth.post('/register', { phoneNumber, password, firstName, middleName, lastName });
     console.log(response.data);
 
     } catch (err) {
@@ -28,7 +28,7 @@ function Register() {
 
 
   return (
-    <form id="login-form" onSubmit={handleSubmit}>
+    <form id="registration-form" onSubmit={handleSubmit}>
       <label htmlFor="phone-number-input">
         Phone No:
       </label>

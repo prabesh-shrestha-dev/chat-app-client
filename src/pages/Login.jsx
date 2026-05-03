@@ -1,9 +1,37 @@
-
+import { useState, useRef, useEffect } from 'react';
+import './Login.css';
+import { axiosAuth } from '../api/axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 function Login() {
+  const phoneInputRef = useRef(null);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
+  const { setAccessToken } = useAuth();
+
+  useEffect(() => {
+    phoneInputRef.current.focus();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axiosAuth.post('/login', { phoneNumber, password });
+      setAccessToken(response.data.accessToken);
+
+      navigate('/');
+
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+    }
+  }
 
   return (
-    <form id="login-form">
+    <form id="login-form" onSubmit={handleSubmit}>
       <label htmlFor="phone-number-input">
         Phone No:
       </label>
@@ -11,6 +39,9 @@ function Login() {
         id="phone-number-input"
         type="text"
         required
+        ref={phoneInputRef}
+        value={phoneNumber}
+        onChange={e => setPhoneNumber(e.target.value)}
       />
       <label htmlFor="password-input">
         Password:
@@ -19,29 +50,12 @@ function Login() {
         id="password-input"
         type="password"
         required
+        value={password}
+        onChange={e => setPassword(e.target.value)}
       />
-      <label htmlFor="first-name-input">
-        First Name:
-      </label>
-      <input 
-        id="first-name-input"
-        type="text"
-        required
-      />
-      <label htmlFor="first-name-input">
-        First Name:
-      </label>
-      <input 
-        id="first-name-input"
-        type="text"
-      />
-      <label htmlFor="first-name-input">
-        First Name:
-      </label>
-      <input 
-        id="first-name-input"
-        type="text"
-      />
+      <button
+        type="submit"
+      >Login</button>
     </form>
   )
 }

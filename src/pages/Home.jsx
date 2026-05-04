@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { axiosAuth } from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useAuth } from "../context/authContext";
+import useLogout from "../hooks/useLogout";
 
 function Home() {
 
@@ -11,6 +12,8 @@ function Home() {
   const { accessToken, setAccessToken } = useAuth();
 
   const axiosPrivate = useAxiosPrivate();
+
+  const logout = useLogout();
 
   useEffect(() => {
     const loadHome = async () => {
@@ -26,9 +29,14 @@ function Home() {
     loadHome();
   }, []);
 
+  const handleLogout = async () => {
+    logout();
+  }
+
   return (
     <div>
       {phoneNumber}: {firstName}
+      <button onClick={handleLogout}>Logout</button>
     </div>
   )
 }

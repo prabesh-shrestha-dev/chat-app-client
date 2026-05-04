@@ -13,7 +13,7 @@ const useRefreshToken = () => {
       return accessToken;
 
     } catch (err) {
-      Promise.reject(err.message);
+      throw err;
     }
   }
 

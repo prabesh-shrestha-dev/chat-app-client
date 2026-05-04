@@ -2,11 +2,13 @@ import { useEffect } from "react";
 import { useAuth } from "../context/authContext";
 import { axiosPrivate } from "../api/axios"
 import useRefreshToken from "./useRefreshToken";
+import useLogout from "./useLogout";
 
 const useAxiosPrivate = () => {
 
   const { accessToken } = useAuth();
   const refresh = useRefreshToken();
+  const logout = useLogout();
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use((config) => {
@@ -30,7 +32,9 @@ const useAxiosPrivate = () => {
             prevRequest.headers.Authorization = `Bearer ${newAccessToken}`;
             return axiosPrivate(prevRequest)
           } catch (err) {
-            Promise.reject(err);
+            console.log("REFRESH FAILED → LOGOUT");
+            await logout();
+            return Promise.reject(err);
           }
         }
         return Promise.reject(error);
@@ -41,7 +45,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     }
-  }, [accessToken, refresh])
+  }, [accessToken, refresh, logout])
 
   return axiosPrivate;
 };

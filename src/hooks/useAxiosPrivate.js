@@ -6,14 +6,14 @@ import useLogout from "./useLogout";
 
 const useAxiosPrivate = () => {
 
-  const { accessToken } = useAuth();
+  const { auth } = useAuth();
   const refresh = useRefreshToken();
   const logout = useLogout();
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use((config) => {
       if (!config.headers?.Authorization) {
-        config.headers.Authorization = `Bearer ${accessToken}`
+        config.headers.Authorization = `Bearer ${auth.accessToken}`
       }
       return config;
     }, (error) => {
@@ -45,7 +45,7 @@ const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     }
-  }, [accessToken, refresh, logout])
+  }, [auth, refresh, logout])
 
   return axiosPrivate;
 };

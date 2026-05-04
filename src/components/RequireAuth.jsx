@@ -3,8 +3,8 @@ import { useAuth } from "../context/authContext";
 
 const RequireAuth = () => {
 
-  const { accessToken } = useAuth();
-  if (!accessToken) {
+  const { auth } = useAuth();
+  if (!auth.accessToken) {
     return <Navigate to="/login" replace />
   }
 

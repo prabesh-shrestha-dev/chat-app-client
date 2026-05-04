@@ -10,7 +10,7 @@ function Login() {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
-  const { setAccessToken } = useAuth();
+  const { setAuth } = useAuth();
 
   useEffect(() => {
     phoneInputRef.current.focus();
@@ -21,7 +21,7 @@ function Login() {
 
     try {
       const response = await axiosAuth.post('/login', { phoneNumber, password });
-      setAccessToken(response.data.accessToken);
+      setAuth({ accessToken: response.data.accessToken });
 
       navigate('/');
 

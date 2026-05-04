@@ -5,7 +5,7 @@ import { useAuth } from "../context/authContext";
 
 const useLogout = () => {
 
-  const { setAccessToken } = useAuth();
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
 
   const logout = async () => {
@@ -14,7 +14,7 @@ const useLogout = () => {
     } catch (err) {
       console.error(err.response?.data || err.message);
     } finally {
-      setAccessToken(null);
+      setAuth({});
       navigate('/login', { replace: true });
     }
   }

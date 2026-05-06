@@ -3,6 +3,7 @@ import { axiosAuth } from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useAuth } from "../context/authContext";
 import useLogout from "../hooks/useLogout";
+import Chat from "../components/Chat";
 
 function Home() {
 
@@ -37,6 +38,7 @@ function Home() {
     <div>
       {phoneNumber}: {firstName}
       <button onClick={handleLogout}>Logout</button>
+      <Chat />
     </div>
   )
 }

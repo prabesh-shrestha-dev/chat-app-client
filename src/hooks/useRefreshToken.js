@@ -8,8 +8,11 @@ const useRefreshToken = () => {
   const refresh = async () => {
     try {
       const response = await axiosAuth.get('/refresh');
-      const accessToken = response.data.accessToken;
-      setAuth({ accessToken });
+      const { accessToken, userId } = response.data;
+      setAuth({ 
+        accessToken,
+        userId
+      });
       return accessToken;
 
     } catch (err) {

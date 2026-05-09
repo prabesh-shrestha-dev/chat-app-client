@@ -5,6 +5,7 @@ import Register from "./pages/Register"
 import './App.css'
 import RequireAuth from "./components/RequireAuth"
 import PersistLogin from "./components/PersistLogin"
+import { ChatProvider } from "./context/chatContext"
 
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<ChatProvider><Home /></ChatProvider>} />
           </Route>
         </Route>
       </Routes>

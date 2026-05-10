@@ -16,7 +16,7 @@ const ChatList = () => {
   useEffect(() => {
     const getChatList = async () => {
       try {
-        const response = await axiosPrivate.get("/chatList");
+        const response = await axiosPrivate.get("/chats");
         setChats(response.data.chats);
       } catch (err) {
         console.error(err.response?.data || err.message);

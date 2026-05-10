@@ -63,3 +63,28 @@
 #register-link:hover {
   text-decoration: underline;
 }
+
+#error-text {
+  border: 1px solid #fca5a5;
+  background-color: #fef2f2;
+  color: #b91c1c;
+
+  border-radius: 8px;
+  padding: 0.75rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#error-symbol {
+  color: red;
+}
+
+@media ((max-width: 385px)) {
+  #login-form {
+    width: 300px;
+    padding: 1.5rem;
+    gap: 0.7rem;
+  }
+}

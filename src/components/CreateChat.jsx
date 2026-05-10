@@ -8,7 +8,7 @@ const CreateChat = () => {
 
   const createChat = async () => {
     try {
-      const response = await axiosPrivate.post('/createChat', {
+      const response = await axiosPrivate.post('/chats', {
         phoneNumber
       });
       console.log(response.data);

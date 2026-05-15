@@ -5,14 +5,17 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/authContext'
 import { SocketProvider } from './context/socketContext.jsx'
+import { ChatProvider } from './context/chatContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <SocketProvider>
-          <App />
-        </SocketProvider>
+        <ChatProvider>
+          <SocketProvider>
+            <App />
+          </SocketProvider>
+        </ChatProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,

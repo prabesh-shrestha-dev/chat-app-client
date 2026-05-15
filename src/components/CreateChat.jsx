@@ -1,8 +1,9 @@
 import { useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useLogout from "../hooks/useLogout";
 
 
-const CreateChat = () => {
+const CreateChat = ({ setMobileCreateChat }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const axiosPrivate = useAxiosPrivate();
 
@@ -18,13 +19,21 @@ const CreateChat = () => {
     }
   }
 
+  const logout = useLogout();
+
+  const handleLogout = async () => {
+    logout();
+  };
+
   return (
     <div>
+      <button className="comp-hidden" onClick={() => setMobileCreateChat(false)}>X</button>
       <input
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
       />
       <button onClick={createChat}>Create Chat</button>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   )
 }

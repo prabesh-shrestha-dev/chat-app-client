@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useSocket from "../hooks/useSocket";
-import { useAuth } from "../context/authContext";
-import { useChatContext } from "../context/chatContext";
-import { useSocketContext } from "../context/socketContext";
+import ChatListItem from "./ChatListItem";
+import "./ChatList.css";
 
-const ChatList = () => {
+const ChatList = ({ setMobileCreateChat }) => {
 
   const [chats, setChats] = useState([]);
   const axiosPrivate = useAxiosPrivate();
-  const { auth } = useAuth();
-  const { setCurrentChatId } = useChatContext();
-  const socket = useSocketContext();
 
   useEffect(() => {
     const getChatList = async () => {
@@ -29,27 +25,46 @@ const ChatList = () => {
     setChats(prev => [newChat, ...prev]);
   });
 
+  useSocket("chat-updated", (chatId, latestMessage) => {
+    setChats(prevChats => {
+      const filteredChats = prevChats.filter(chat => chat._id !== chatId);
+      const targetedChat = prevChats.find(chat => chat._id === chatId);
+      if (!targetedChat) return prevChats;
+
+      const updatedChat = {
+        ...targetedChat,
+        latestMessage,
+        latestMessageAt: latestMessage.createdAt
+      };
+
+      return [updatedChat, ...filteredChats];
+    });
+  });
 
   return (
-    <div>
-      <span>ChatList</span>
-      { chats.length !== 0 ?
-        chats.map((chat, index) => {
-          const otherUser = chat.users.find(user => user._id !== auth.userId);
-          const { firstName, middleName, lastName, phoneNumber } = otherUser;
-          return (
-            <button 
-              key={index}
-              onClick={() => {
-                setCurrentChatId(chat._id)
-                socket.emit('join-room', chat._id);
-              }}
-            >
-              {`${phoneNumber}, ${firstName}`}
-            </button>
-          )
-      }) : <div>No chats</div> }
-    </div>
+    <main className="chat-list-layout">
+      <section className="top-section">
+        <span className="app-name">ChatApp</span>
+
+        <button 
+          className="add-chat comp-hidden" 
+          onClick={() => setMobileCreateChat(true)}
+        >+</button>
+      </section>
+
+      <section className="chat-list">
+        { 
+          chats.length !== 0 ?
+            chats.map((chat, index) => (
+              <ChatListItem 
+                key={chat._id}
+                chat={chat}
+              />
+            )) : 
+            <div>No chats</div> 
+        }
+      </section>
+    </main>
   )
 };
 

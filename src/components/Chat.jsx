@@ -5,7 +5,7 @@ import ChatInput from './ChatInput';
 
 const Chat = () => {
 
-  const { currentChatId } = useChatContext();
+  const { currentChatId, setChatStatus, setCurrentChatId } = useChatContext();
   const axiosPrivate = useAxiosPrivate();
   const [messages, setMessages] = useState([]);
 
@@ -27,6 +27,10 @@ const Chat = () => {
   return (
     <main>
       <span>Chat</span>
+      <button onClick={() => {
+        setChatStatus(false);
+        setCurrentChatId('');
+      }}>X</button>
       {currentChatId ? <div>{messages.length !== 0 ? <div>{messages.map((message, index) => {
         return (<div key={index}>{message.content}</div>)
       })}</div>: <div>No Messages yet</div>}</div> : <div>Empty</div>}

@@ -1,0 +1,46 @@
+.chat-list-layout {
+  background-color: #F8F9FA;
+  height: 100vh; /* for scroll */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* for scroll */
+}
+
+.top-section {
+  flex-shrink: 0; /* to prevent shrinking */
+  display: flex;
+  height: 80px;
+  align-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 1px solid rgba(76, 75, 75, 0.5);
+}
+
+.app-name {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1F2937;
+  flex-grow: 1;
+}
+
+.add-chat {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.chat-list {
+  /* color: #6B7280; */
+  background-color: antiquewhite;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  flex-grow: 1;
+  padding: 20px;
+
+  min-height: 0; /* for scroll */
+  overflow-y: auto;
+}

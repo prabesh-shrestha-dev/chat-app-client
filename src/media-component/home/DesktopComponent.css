@@ -1,0 +1,9 @@
+.sidebar {
+  flex-grow: 1;
+}
+
+.content {
+  flex-grow: 3;
+
+  background-color: #F8EDAD;
+}

@@ -5,11 +5,22 @@ const ChatContext = createContext(null);
 
 export const ChatProvider = ({ children }) => {
 
+  const [chats, setChats] = useState([]);
   const [currentChatId, setCurrentChatId] = useState('');
   const [chatStatus, setChatStatus] = useState(false);
+  const [createChatStatus, setCreateChatStatus] = useState(false);
 
   return (
-    <ChatContext.Provider value={{ currentChatId, setCurrentChatId, chatStatus, setChatStatus }}>
+    <ChatContext.Provider value={{ 
+      chats,
+      setChats,
+      currentChatId, 
+      setCurrentChatId, 
+      chatStatus, 
+      setChatStatus,
+      createChatStatus,
+      setCreateChatStatus 
+    }}>
       {children}
     </ChatContext.Provider>
   );

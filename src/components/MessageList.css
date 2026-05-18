@@ -1,0 +1,19 @@
+.message-container {
+  display: flex;
+}
+
+.own-message-container {
+  justify-content: flex-end;
+}
+
+.message {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background-color: #E5E7EB;
+  word-break: break-word;
+}
+
+.own-message-container .message {
+  background-color: #A5D6A7;
+}

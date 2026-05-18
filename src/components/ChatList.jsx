@@ -3,10 +3,11 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useSocket from "../hooks/useSocket";
 import ChatListItem from "./ChatListItem";
 import "./ChatList.css";
+import { useChatContext } from "../context/chatContext";
 
-const ChatList = ({ setMobileCreateChat }) => {
+const ChatList = () => {
 
-  const [chats, setChats] = useState([]);
+  const { chats, setChats, setCreateChatStatus } = useChatContext();
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
@@ -47,8 +48,8 @@ const ChatList = ({ setMobileCreateChat }) => {
         <span className="app-name">ChatApp</span>
 
         <button 
-          className="add-chat comp-hidden" 
-          onClick={() => setMobileCreateChat(true)}
+          className="add-chat" 
+          onClick={() => setCreateChatStatus(true)}
         >+</button>
       </section>
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { useChatContext } from "../context/chatContext";
 import useSocket from "../hooks/useSocket";
-
+import "./ChatInput.css";
 
 const ChatInput = ({ setMessages }) => {
 
@@ -16,6 +16,7 @@ const ChatInput = ({ setMessages }) => {
         chatId: currentChatId, message
       });
       console.log(response.data);
+      setMessage('');
     } catch (err) {
       console.error(err.response?.data || err.message);
     }
@@ -28,12 +29,15 @@ const ChatInput = ({ setMessages }) => {
   })
 
   return (
-    <div>
+    <div className="chat-input-container">
       <input
+        className="chat-input"
+        placeholder="Message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
       <button
+        className="chat-input-button"
         onClick={sendMessage}
       >
         Send

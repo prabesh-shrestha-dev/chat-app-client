@@ -4,31 +4,3 @@
   width: 100%;
   min-height: 100vh;
 }
-
-.sidebar {
-  flex-grow: 1;
-}
-
-.content {
-  flex-grow: 3;
-
-  background-color: #F8EDAD;
-}
-
-.comp-hidden {
-  display: none;
-}
-
-@media (max-width: 520px) {
-  .mobile-hidden {
-    display: none
-  }
-
-  .sidebar {
-    width: 100%;
-  }
-
-  .comp-hidden {
-    display: inline-block;
-  }
-}

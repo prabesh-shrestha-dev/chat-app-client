@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { useAuth } from "../context/authContext";
+import { useChatContext } from "../context/chatContext";
 import './MessageList.css';
 
 
@@ -9,17 +10,23 @@ const MessageList = ({ messages }) => {
   const bottomRef = useRef(null);
   const firstLoad = useRef(true);
 
-  useLayoutEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "auto"
-    });
-  }, [])
+  const { currentChatId } = useChatContext();
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "smooth"
-    });
-  }, [messages])
+    if (!messages.length) return;
+
+    if (firstLoad.current) {
+      bottomRef.current?.scrollIntoView({ behavior: "auto" });
+      firstLoad.current = false;
+      return;
+    }
+
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    firstLoad.current = true;
+  }, [currentChatId]);
   
   return (
     <>
@@ -47,7 +54,14 @@ const MessageList = ({ messages }) => {
 
           <div ref={bottomRef}></div>
         </>
-        : <div>No Messages yet</div>}
+        : (
+          <div className="chat-placeholder">
+            <div className="placeholder-box">
+              <h3>Welcome 👋</h3>
+              <p>Select a conversation from the left to start chatting</p>
+            </div>
+          </div>
+        )}
     </>
   )
 };

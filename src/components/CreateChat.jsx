@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useLogout from "../hooks/useLogout";
-import "./CreateChat.css";
 import { useChatContext } from "../context/chatContext";
+import "./CreateChat.css";
 
 const CreateChat = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -24,20 +24,19 @@ const CreateChat = () => {
 
     if (!phoneNumber.trim()) {
       setError("Phone number is required");
-      return;
+      return setIsCreating(false);
     } 
 
     if (isNaN(phoneNumber)) {
       setError("A valid number is required");
-      return;
+      return setIsCreating(false);
     }
 
     try {
-      const response = await axiosPrivate.post('/chats', {
+      await axiosPrivate.post('/chats', {
         phoneNumber
       });
-      console.log(response.data);
-      setIsCreatingChat(false);
+      setCreateChatStatus(false);
       
     } catch (err) {
       if (err.response?.status === 500) {
@@ -53,6 +52,13 @@ const CreateChat = () => {
 
   const handleLogout = async () => {
     await logout();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey && !isCreating) {
+      e.preventDefault();
+      createChat();
+    }
   };
 
   return (
@@ -81,16 +87,16 @@ const CreateChat = () => {
             placeholder="Enter phone number"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
 
           <button
             onClick={createChat}
+            disabled={isCreating || !phoneNumber}
           >
             Create
           </button>
         </main>
-
-
 
         <button 
           className="logout-btn"

@@ -1,9 +1,12 @@
 .sidebar {
-  flex-grow: 1;
+  flex: 0 0 30%;
+  min-width: 375px;
+  min-height: 100vh;
+  flex-shrink: 0;
 }
 
 .content {
-  flex-grow: 3;
-
-  background-color: #F8EDAD;
+  flex-grow: 1;
+  min-height: 100vh;
+  min-width: 0;
 }

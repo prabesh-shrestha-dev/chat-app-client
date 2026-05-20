@@ -37,15 +37,16 @@ const ChatListItem = ({ chat }) => {
 
   const latestMessageText = useMemo(() => {
     if (!chat.latestMessage) {
-      return "Chat created";
+      return { content: "Chat created..." };
     }
 
     const isMine = 
       chat.latestMessage?.sender?._id === auth.userId;
 
-    return `${isMine ? "You: " : ""}${
-      chat.latestMessage.content
-    }`;
+    return {
+      isMine,
+      content: chat.latestMessage.content
+    };
   }, [chat.latestMessage, auth.userId]);
 
   const handleChatSelect = () => {
@@ -89,7 +90,10 @@ const ChatListItem = ({ chat }) => {
       </section>
       
       <section className="chat-item-message">
-          <p>{latestMessageText}</p>
+          <p>
+            {latestMessageText.isMine && <strong>You: </strong>}
+            {latestMessageText.content}
+          </p>
       </section>
     </article>
   )

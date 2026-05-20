@@ -10,23 +10,31 @@ const ChatInput = ({ setMessages }) => {
   const axiosPrivate = useAxiosPrivate();
   const { currentChatId } = useChatContext();
 
-  const sendMessage = async () => {
-    try {
-      const response = await axiosPrivate.post('/message', {
-        chatId: currentChatId, message
-      });
-      console.log(response.data);
-      setMessage('');
-    } catch (err) {
-      console.error(err.response?.data || err.message);
-    }
-  }
-
   useSocket("receive-message", (newMessage, chatId) => {
     if (chatId === currentChatId) {
       setMessages(prev => [...prev, newMessage])
     }
   })
+
+  const sendMessage = async () => {
+    if (!message.trim()) return;
+
+    try {
+      const response = await axiosPrivate.post('/message', {
+        chatId: currentChatId, message
+      });
+      setMessage('');
+    } catch (err) {
+      console.error(err.response?.data || err.message);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
 
   return (
     <div className="chat-input-container">
@@ -35,10 +43,13 @@ const ChatInput = ({ setMessages }) => {
         placeholder="Message..."
         value={message}
         onChange={(e) => setMessage(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
+
       <button
         className="chat-input-button"
         onClick={sendMessage}
+        disabled={!message}
       >
         Send
       </button>

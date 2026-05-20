@@ -2,6 +2,7 @@ import Chat from "../../components/Chat";
 import ChatList from "../../components/ChatList";
 import CreateChat from "../../components/CreateChat";
 import { useChatContext } from "../../context/chatContext";
+import "./DesktopComponent.css";
 
 const DesktopComponent = () => {
 

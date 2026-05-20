@@ -1,5 +1,6 @@
 .message-container {
   display: flex;
+  margin-bottom: 6px;
 }
 
 .own-message-container {
@@ -8,12 +9,66 @@
 
 .message {
   max-width: 70%;
+
   padding: 10px 14px;
+
   border-radius: 16px;
-  background-color: #E5E7EB;
+
+  background: #e5e7eb;
+
   word-break: break-word;
+
+  font-size: 0.92rem;
+  line-height: 1.4;
+
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+  transition: transform 0.15s ease;
+}
+
+.message:hover {
+  transform: translateY(-1px);
 }
 
 .own-message-container .message {
-  background-color: #A5D6A7;
+  background-color: #4f46e5;
+  color: white;
+
+  border-bottom-right-radius: 6px;
+  border-top-left-radius: 16px;
+}
+
+.message-container:not(.own-message-container) .message {
+  border-bottom-left-radius: 6px;
+}
+
+.chat-placeholder {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  color: #9ca3af;
+}
+
+.placeholder-box {
+  text-align: center;
+  max-width: 280px;
+
+  color: #6b7280;
+}
+
+.placeholder-box h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.placeholder-box p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }

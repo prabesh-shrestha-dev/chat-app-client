@@ -76,7 +76,9 @@ const Chat = () => {
         }
       </main>
 
-      <ChatInput setMessages={setMessages} />
+      <section className="chat-input-wrapper">
+        <ChatInput setMessages={setMessages} />
+      </section>
     </article>
   )
 }

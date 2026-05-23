@@ -11,8 +11,16 @@ const Chat = () => {
   const { currentChatId, setChatStatus, setCurrentChatId } = useChatContext();
   const axiosPrivate = useAxiosPrivate();
   const [messages, setMessages] = useState([]);
+  const [showTyping, setShowTyping] = useState(false);
+  const [latestMessageSeenId, setLatestMessageSeenId] = useState(null);
   const { auth } = useAuth();
   const { chats } = useChatContext();
+
+  const chat = chats.find(chat => chat._id === currentChatId);
+
+  const otherUser = useMemo(() => {
+    return chat.users.find(user => user._id !== auth.userId);
+  }, [chat?.users, auth.userId]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -28,11 +36,24 @@ const Chat = () => {
     }
   }, [currentChatId, axiosPrivate]);
 
-  const chat = chats.find(chat => chat._id === currentChatId);
+  useEffect(() => {
+    if (!messages?.length || !auth?.userId) return;
 
-  const otherUser = useMemo(() => {
-    return chat.users.find(user => user._id !== auth.userId);
-  }, [chat.users, auth.userId]);
+    const filteredMessages = messages.filter(message =>
+      message.sender === auth?.userId &&
+      message.readBy?.includes(otherUser?._id)
+    );
+
+    if (!filteredMessages.length) return;
+
+    const latestMessageSeen = filteredMessages.reduce((latest, msg) => {
+        return new Date(msg.createdAt) > new Date(latest?.createdAt)
+          ? msg
+          : latest;
+      }, filteredMessages[0]);
+
+    setLatestMessageSeenId(latestMessageSeen._id);
+  }, [messages, auth?.userId, otherUser?._id]);
 
   const fullName = [
     otherUser?.firstName,
@@ -71,13 +92,23 @@ const Chat = () => {
 
       <main className="messages-layout">
         {currentChatId 
-          ? <MessageList messages={messages} /> 
+          ? <MessageList 
+              messages={messages}
+              showTyping={showTyping}
+              otherUserId={otherUser._id}
+              latestMessageSeenId={latestMessageSeenId}
+            /> 
           : <div>Chat not found</div>
         }
       </main>
 
-      <section className="chat-input-wrapper">
-        <ChatInput setMessages={setMessages} />
+      <section className="chat-footer">
+        <ChatInput 
+          setMessages={setMessages}
+          setShowTyping={setShowTyping}
+          setLatestMessageSeenId={setLatestMessageSeenId}
+          otherUserId={otherUser._id}
+        />
       </section>
     </article>
   )
